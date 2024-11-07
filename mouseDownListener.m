@@ -1,4 +1,4 @@
-function [] = mouseDownListener(src, event)
+function [] = mouseDownListener(src, ~)
 
 %mouseDownListener listens for mouse clicks in the figure
 %Input arguments

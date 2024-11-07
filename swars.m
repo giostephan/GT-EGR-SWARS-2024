@@ -8,7 +8,6 @@ function  swars(player)
 % - - - *| G A M E  C O N T R O L S | * - - -
 
 % Prompt for game setup (wireless play and hosting)
-
 i = 0;
 WIRELESSPLAY = input('WIRELESS PLAY? [Y] | [N]','s');
     if upper(WIRELESSPLAY(1)) == 'Y'
@@ -38,17 +37,18 @@ quitGame = false;
 
 %   hero - Player 1
 %   villian - Player 2
-heroPos = [50 150];
-villainPos = [150 150];
+heroPos = [50 150]; % unused
+villainPos = [150 150]; % unused
 
 % Initialize graphics
 [mainAxis, ship, ship2, axisTitle ,heroPos ,villainPos] = initialize_graphics();
     if playerNumber == 1
-        print_title(axisTitle,'S W A R S PLAYER 1')
+        print_title(axisTitle,'S W A R S PLAYER 1') % Set player 1 window title
         elseif playerNumber == 2
-            print_title(axisTitle,'S W A R S PLAYER 2')
+            print_title(axisTitle,'S W A R S PLAYER 2') % Set plater 2 window title
     end
-% Draw objects
+
+% Draw objects - This section should be moved to another file
 pause(0.015);
 draw_object(mainAxis,ship,heroPos);
 draw_object(mainAxis,ship2,villainPos);
@@ -62,7 +62,9 @@ draw_object(mainAxis,ship2,villainPos);
             set(ship2.patch,'EdgeColor', randi(10,1,3)/10);
         end
 
-    % Movement
+% Movement
+
+% Hero position and movement
     if right_button == true
         [mousePos] = get_mouse_position(mainAxis);
         Xi = heroPos(1);
@@ -112,6 +114,8 @@ fclose(fid);
         set(ship2.patch,'EdgeColor', randi(10,1,3)/10 );
         set(ship.patch,'EdgeColor', randi(10,1,3)/10 );
     end
+
+% Villian movement
 
     if right_button == true
         [mousePos] = get_mouse_position(mainAxis);
