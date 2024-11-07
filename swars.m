@@ -14,10 +14,11 @@ WIRELESSPLAY = input('WIRELESS PLAY? [Y] | [N]','s');
         HOST = input('ARE YOU HOSTING [Y] | [N]','s');
 
     if upper(HOST(1)) =='Y'
-        player1 = tcpserver('192.168.12.203', 42056);
+        player1 = tcpserver('192.168.12.203', 42056); % Read IP - hardcoded for now but should be prompted for eventually
+                                                      % Port number - Might change for ever server start
     end
     if upper(HOST(1)) == 'N'
-        player1 = tcpclient('0.0.0.0',42056);
+        player1 = tcpclient('0.0.0.0',42056); 
     end
 
 pause(2);
