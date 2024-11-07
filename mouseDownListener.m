@@ -1,4 +1,4 @@
-% function [] = mouseDownListener(src, ~)
+function [] = mouseDownListener(src, event)
 
 %mouseDownListener listens for mouse clicks in the figure
 %Input arguments
@@ -28,12 +28,16 @@
 %   main usage would be to allow setting of a global variable
 %   to detect which mouse button was clicked.
 
-function [] = mouseDownListener(src, ~)
-    global targetPos;
-    if strcmp(src.SelectionType, 'alt')  % Right-click
-        targetPos = get_mouse_position(src);
-        global mainAxis ship heroPos;
-        move_object_timer(mainAxis, ship, heroPos, targetPos, 1); % Move in 1 second
-        heroPos = targetPos; % Update hero position
+global right_button;
+
+    switch src.SelectionType
+        case 'alt'  % Right-click
+        right_button = true;
+        % Store mouse position to move ship to target
+        global targetPos;
+        [targetPos] = get_mouse_position(src);
+        otherwise
+        % Other mouse buttons can be ignored
+        right_button = false;
     end
 end
