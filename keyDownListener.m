@@ -1,7 +1,7 @@
-  function keyDownListener(~,event)    
-  global quitGame;
+function keyDownListener(~,event)    
+    global quitGame;
     switch event.Key
-      case 'q'
+        case 'q'
         quitGame = true;
     end
-  end
+end
