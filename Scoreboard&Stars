@@ -17,6 +17,14 @@ ax = gca;
 ax.Color = 'black';
 axis off;
 
+score_hero = 0;
+score_villian = 0;
+hitscore_hero = ['Hero:',num2str(score_hero)];
+hitscore_villian = ['Villian:',num2str(score_villian)];
+
+score_box = rectangle('Position',[0,17,60,3],'EdgeColor','w','LineWidth',2,'FaceColor','k');
+text_hitscore_hero = text(5,18,['Hero:',num2str(score_hero)],'FontSize',14,'FontName','Comic Sans MS ','FontWeight', 'bold','Color','b','HorizontalAlignment','left','VerticalAlignment','middle');
+text_hitscore_villian = text(55,18,['Villain:',num2str(score_villian)],'FontSize',14,'FontName','Comic Sans MS ','FontWeight', 'bold','Color','r','HorizontalAlignment','right','VerticalAlignment','middle');
 for frame = 1:frameCount
     x = x+(rand(1,numSpecks) - 0.5)*0.5;
     y = y+(rand(1,numSpecks)-0.5)*0.5;
@@ -28,16 +36,4 @@ for frame = 1:frameCount
     drawnow;
     pause(0.05);
 end
-score_hero = 0;
-score_villian = 0;
-hitscore_hero = ['Hero:',num2str(score_hero)];
-hitscore_villian = ['Villian:',num2str(score_villian)];
-score_box = rectangle('Position',[0,15,60,4],'EdgeColor','rand(1,3)','LineWidth',2,'FaceColor','k');
-text_hitscore_hero = text(5,17,['Hero:',num2str(score_hero)],'FontSize',14,'FontName','Arcane MS','FontWeight', 'bold','Color','b','HorizontalAlignment','left','VerticalAlignment','middle');
-text_hitscore_villian = text(55,17,['Villain:',num2str(score_villian)],'FontSize',14,'FontName','Arcane MS','FontWeight', 'bold','Color','r','HorizontalAlignment','right','VerticalAlignment','middle');
 
-if score_hero >= 5
-    disp('Hero wins!');
-elseif score_villian >= 5
-    disp('Villain wins!');
-end
