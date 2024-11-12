@@ -1,5 +1,5 @@
 numSpecks = 250;
-frameCount = inf;
+frameCount = 1000;
 xLimits = [0,60];
 ylimits = [0,20];
 
