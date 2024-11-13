@@ -2,8 +2,8 @@ fig = figure;
 set(fig, 'Color', 'black');
 
 %                Star dust
-x = randi(200,15);           % x data
-y = randi(324,15);           % y data
+x = randi([-200 200],15);           % x data
+y = randi([-324 324],15);           % y data
 starSizes = randi([30 100], 15);  % Varying star sizes
 starColors = [ones(15, 1), ones(15, 1), ones(15, 1)]; % white Varying colors
 
@@ -19,7 +19,7 @@ scatter(x, y, starSizes, starColors, 'filled','*', 'MarkerEdgeColor', 'white', '
  %                      Glowing halo
  hold on
   for i = 1:20
-      scatter(x(i), y(i), st.Sizes(i)*1.5,'white','filled','*', 'MarkerFaceAlpha', 0.3, 'MarkerEdgeAlpha', 0); % halo illusion
+      scatter(x(i), y(i), starSizes(i)*1.5,'white','filled','*', 'MarkerFaceAlpha', 0.3, 'MarkerEdgeAlpha', 0); % halo illusion
   end
   hold off
  
