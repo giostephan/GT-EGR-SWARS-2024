@@ -12,7 +12,7 @@ x = rand(1, numSpecks)*(xLimits(2)-xLimits(1))+xLimits(1);
 y = rand(1, numSpecks)*(ylimits(2)-ylimits(1))+ylimits(1);
 
 
-h = scatter(x, y, 20, 'w','filled');
+h = scatter(x, y, 20, 'w','filled','*','MarkerEdgeColor','flat');
 ax = gca;
 ax.Color = 'black';
 axis off;
