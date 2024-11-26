@@ -1,0 +1,132 @@
+numSpecks = 250;
+frameCount = 1000;
+xLimits = [0,60];
+yLimits = [0,20];
+
+fig = figure('Name', 'SWARS'); %                                                    *** Addition ***
+set(fig, 'Color', 'black');
+axis([xLimits, yLimits]);
+axis off;
+
+% random star field
+x = rand(1, numSpecks) * (xLimits(2) - xLimits(1)) + xLimits(1);
+y = rand(1, numSpecks) * (yLimits(2) - yLimits(1)) + yLimits(1);
+starSizes = rand(3, numSpecks); % Varying star sizes
+h = scatter(x, y, starSizes, 'w', 'filled', '*', 'MarkerEdgeColor', 'flat');
+ax = gca;
+ax.Color = 'black';
+axis off;
+
+% figure border
+borderWidth = 10; % width
+borderColor = 'cyan'; % color
+annotation('rectangle', [0 0 1 1], ...
+           'EdgeColor', borderColor, 'LineWidth', borderWidth);
+%                                                                                   *** Addition ***
+    % Initialize and store scores in guidata
+data.scores = [0, 0];   % vectorized scores for Hero and Villain 
+data.h = h;             % scatter plot handle
+data.x = x;
+data.y = y;
+guidata(fig, data);
+
+    % Scoreboard background
+score_box = rectangle('Position', [0, 17, 60, 3], ...
+                      'EdgeColor', 'w', ...
+                      'LineWidth', 2, 'FaceColor', 'k');
+
+    % Hero score 
+data.text_hitscore_hero = text(5, 18, 'Hero: 0', ...   %                            *** Addition ***
+                               'FontSize', 14, 'FontName', 'Comic Sans MS', ...
+                               'FontWeight', 'bold', 'Color', 'b', ...
+                               'HorizontalAlignment', 'left', ...
+                               'VerticalAlignment', 'middle');
+
+    % Villain score 
+data.text_hitscore_villain = text(55, 18, 'Villain: 0', ... %                       *** Addition ***
+                                  'FontSize', 14, 'FontName', 'Comic Sans MS', ...
+                                  'FontWeight', 'bold', 'Color', 'r', ...
+                                  'HorizontalAlignment', 'right', ...
+                                  'VerticalAlignment', 'middle');
+guidata(fig, data);                                         %                       *** Addition ***
+
+    % Buttons for simulating hits                                            *** Button Addition ***
+uicontrol('Style', 'pushbutton', ...    %  ***** buttons for simul/test purposes ***
+          'Position', [100, 10, 80, 30], ...  %                              *** Buttons can be disabled/ removed ***
+          'String', 'Hero Hits', ...
+          'Callback', @heroHits);
+
+uicontrol('Style', 'pushbutton', ...
+          'Position', [300, 10, 80, 30], ...
+          'String', 'Villain Hits', ...
+          'Callback', @villainHits);
+
+    % updating the scoreboard
+function updateScoreboard(fig)
+    data = guidata(fig); % Retrieve stored data
+    % Update score display
+    set(data.text_hitscore_hero, 'String', ['Hero: ', num2str(data.scores(1))]);
+    set(data.text_hitscore_villain, 'String', ['Villain: ', num2str(data.scores(2))]);
+    
+    % checking for winner
+    if data.scores(1) >= 10
+        displayWinner(fig, 1);
+    elseif data.scores(2) >= 10
+        displayWinner(fig, 2);
+    end
+end   
+    guidata(fig, data); % storage data update
+
+            % hero scoring
+function heroHits(~, ~)
+    fig = gcbf; % Get current figure
+    data = guidata(fig); % data retrieval 
+    data.scores(1) = data.scores(1) + 1; % hero scoring
+    guidata(fig, data); % storage data update
+    updateScoreboard(fig);
+end
+
+            % villain scoring
+function villainHits(~, ~)
+    fig = gcbf; % Get current figure
+    data = guidata(fig); % data retrieval 
+    data.scores(2) = data.scores(2) + 1; % villain scoring
+    guidata(fig, data); % data retrieval 
+    updateScoreboard(fig);
+end
+
+    % display winner and disable buttons
+function displayWinner(fig, player)
+    msgbox(sprintf('Player %d Wins!', player), 'Winner', 'modal');
+    disableButtons(fig);
+end
+
+    % disable buttons after game ends
+function disableButtons(fig)
+    % disable buttons to prevent additional scoring
+    findobj(fig, 'Style', 'pushbutton', 'String', 'Hero Hits').Enable = 'off';
+    findobj(fig, 'Style', 'pushbutton', 'String', 'Villain Hits').Enable = 'off';
+end
+
+    % animated for-loop for star field
+for frame = 1:frameCount
+    % star position update
+    data = guidata(fig); % data retrieval 
+    if isgraphics(data.h) % scatter plot handle verification
+        data.x = data.x - (rand(1, numSpecks) + 0.5) * 0.5;
+        data.y = data.y - (rand(1, numSpecks) + 0.5) * 0.5;
+
+        % wrapping stars 
+        data.x = mod(data.x - xLimits(1), xLimits(2) - xLimits(1)) + xLimits(1);
+        data.y = mod(data.y - yLimits(1), yLimits(2) - yLimits(1)) + yLimits(1);
+
+        % update star scatter plot
+        set(data.h, 'XData', data.x, 'YData', data.y);
+        guidata(fig, data); % data retrieval
+    else
+        break; % exit loop IF fig or scatter plot is deleted
+    end
+    
+    drawnow;
+    pause(0.05);
+end
