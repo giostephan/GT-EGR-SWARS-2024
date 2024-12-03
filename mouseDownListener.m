@@ -28,18 +28,21 @@ function [] = mouseDownListener(src, ~)
 %   main usage would be to allow setting of a global variable
 %   to detect which mouse button was clicked.
 
-    global mainAxis right_button heroTargetPos villainTargetPos;
+    global  R_C L_C mainAxis heroTargetPos villainTargetPos heroshootPos villainshootPos;
 
     % Get the current point in axes data units
-    tempMousePos = get(mainAxis, 'CurrentPoint');
-    mousePos = tempMousePos(1, 1:2);
+    mousePos = get_mouse_position;
 
     switch src.SelectionType
         case 'alt' % Right-click
+            R_C = true;
             heroTargetPos = mousePos;
             villainTargetPos = mousePos;
-        otherwise
-            % Other mouse buttons can be ignored
-            right_button = false;
+        case 'normal' %left-click
+            heroshootPos = mousePos;
+            villainshootPos = mousePos;
+            L_C = true;
+            % torpedopos = heroTargetPos;
+            
     end
 end

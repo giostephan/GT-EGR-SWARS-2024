@@ -12,4 +12,3 @@ function [] = draw_object(mainAxis, object, mousePos)
 objectOutlinePos = [mousePos(1) - (object.w * 0.5), mousePos(2) - (object.h * 0.5)];
 curobjectOutline = [object.outline(1,:) + objectOutlinePos(1); object.outline(2,:) + objectOutlinePos(2)];
 set(object.patch, 'XData', curobjectOutline(1,:), 'YData', curobjectOutline(2,:));
-
